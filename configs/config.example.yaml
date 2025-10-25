@@ -1,0 +1,17 @@
+server: { bind: ":8080" }
+auth: { token: "CHANGE-ME" }
+caddy:
+  adminSocket: "/run/caddy-admin/admin.sock"
+  caddyfile:   "/etc/caddy/Caddyfile"
+  sitesDir:    "/etc/caddy/sites"
+  rulesRoot:   "/etc/coraza/sites"
+backup:
+  enabled: true
+  daily: "03:30"
+  s3:
+    endpoint: "https://<project>.s3.<region>.hetzner.cloud"
+    region:   "eu-central"
+    bucket:   "my-waf-backups"
+    accessKey: "${S3_ACCESS_KEY}"
+    secretKey: "${S3_SECRET_KEY}"
+    prefix:   "waf-backups/"

@@ -1,0 +1,4 @@
+apiVersion: v2
+name: caddy-waf
+version: 0.1.0
+description: Caddy with Coraza WAF (custom image) + OTEL tracing

@@ -1,0 +1,100 @@
+openapi: 3.1.0
+info: { title: waf-admin, version: 1.0.0 }
+servers: [{ url: http://localhost:8080 }]
+paths:
+  /health: { get: { responses: { "200": { description: OK } } } }
+  /v1/sites:
+    get:
+      {
+        security: [{ bearerAuth: [] }],
+        responses: { "200": { description: OK } },
+      }
+  /v1/sites/{name}:
+    get:
+      security: [{ bearerAuth: [] }]
+      parameters:
+        [{ name: name, in: path, required: true, schema: { type: string } }]
+      responses:
+        { "200": { description: OK }, "404": { description: NotFound } }
+    put:
+      security: [{ bearerAuth: [] }]
+      parameters:
+        [{ name: name, in: path, required: true, schema: { type: string } }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              {
+                type: object,
+                properties: { content: { type: string } },
+                required: [content],
+              }
+      responses: { "200": { description: OK } }
+    delete:
+      security: [{ bearerAuth: [] }]
+      parameters:
+        [{ name: name, in: path, required: true, schema: { type: string } }]
+      responses: { "200": { description: OK } }
+  /v1/rules/{site}:
+    get:
+      security: [{ bearerAuth: [] }]
+      parameters:
+        [{ name: site, in: path, required: true, schema: { type: string } }]
+      responses: { "200": { description: OK } }
+  /v1/rules/{site}/{file}:
+    get:
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: site, in: path, required: true, schema: { type: string } }
+        - { name: file, in: path, required: true, schema: { type: string } }
+      responses: { "200": { description: OK } }
+    put:
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: site, in: path, required: true, schema: { type: string } }
+        - { name: file, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              {
+                type: object,
+                properties: { content: { type: string } },
+                required: [content],
+              }
+      responses: { "200": { description: OK } }
+    delete:
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: site, in: path, required: true, schema: { type: string } }
+        - { name: file, in: path, required: true, schema: { type: string } }
+      responses: { "200": { description: OK } }
+  /v1/validate:
+    {
+      post:
+        {
+          security: [{ bearerAuth: [] }],
+          responses: { "200": { description: OK } },
+        },
+    }
+  /v1/apply:
+    {
+      post:
+        {
+          security: [{ bearerAuth: [] }],
+          responses: { "200": { description: OK } },
+        },
+    }
+  /v1/backup:
+    {
+      post:
+        {
+          security: [{ bearerAuth: [] }],
+          responses: { "200": { description: OK } },
+        },
+    }
+components:
+  securitySchemes:
+    bearerAuth: { type: http, scheme: bearer }

@@ -1,0 +1,29 @@
+image:
+  repository: ghcr.io/yourname/waf-admin
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service: { type: ClusterIP, port: 8080 }
+
+auth: { token: "CHANGE-ME" }
+
+caddy:
+  adminSocket: "/run/caddy-admin/admin.sock"
+  caddyfile:   "/etc/caddy/Caddyfile"
+  sitesDir:    "/etc/caddy/sites"
+  rulesRoot:   "/etc/coraza/sites"
+
+backup:
+  enabled: true
+  daily: "03:30"
+  s3:
+    endpoint: "https://<project>.s3.<region>.hetzner.cloud"
+    region: "eu-central"
+    bucket: "my-waf-backups"
+    accessKey: "XXXX"
+    secretKey: "YYYY"
+    prefix: "waf-backups/"
+
+persistence:
+  sitesClaimName: caddy-waf-sites
+  rulesClaimName: caddy-waf-rules

@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  caddy:
+    image: caddy:latest
+    command: caddy run --config /etc/caddy/Caddyfile
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./sites:/etc/caddy/sites
+      - ./coraza:/etc/coraza
+      - type: tmpfs
+        target: /run/caddy-admin
+    ports: ["80:80"]
+  waf-admin:
+    build: ..
+    environment:
+      - WAF_ADMIN_CONFIG=/app/config.yaml
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./sites:/etc/caddy/sites
+      - ./coraza:/etc/coraza
+      - type: tmpfs
+        target: /run/caddy-admin
+    ports: ["8080:8080"]
