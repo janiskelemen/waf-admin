@@ -1,5 +1,5 @@
 image:
-  repository: ghcr.io/yourname/waf-admin
+  repository: ghcr.io/janiskelemen/waf-admin
   tag: latest
   pullPolicy: IfNotPresent
 
@@ -9,9 +9,9 @@ auth: { token: "CHANGE-ME" }
 
 caddy:
   adminSocket: "/run/caddy-admin/admin.sock"
-  caddyfile:   "/etc/caddy/Caddyfile"
-  sitesDir:    "/etc/caddy/sites"
-  rulesRoot:   "/etc/coraza/sites"
+  caddyfile: "/etc/caddy/Caddyfile"
+  sitesDir: "/etc/caddy/sites"
+  rulesRoot: "/etc/coraza/sites"
 
 backup:
   enabled: true

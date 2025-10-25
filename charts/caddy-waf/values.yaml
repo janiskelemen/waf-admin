@@ -1,5 +1,5 @@
 image:
-  repository: ghcr.io/yourname/caddy-waf
+  repository: ghcr.io/janiskelemen/caddy-waf
   tag: latest
   pullPolicy: IfNotPresent
 
