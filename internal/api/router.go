@@ -37,7 +37,7 @@ func (s *Server) routes() http.Handler {
 
 	p.Post("/v1/validate", s.validate)
 	p.Post("/v1/apply", s.apply)
-	p.Post("/v1/backup", s.backupNow)
+	// p.Post("/v1/backup", s.backupNow)
 
 	r.Mount("/", p)
 	return r

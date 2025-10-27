@@ -1,0 +1,71 @@
+version: "3.9"
+services:
+  caddy-waf:
+    image: ghcr.io/janiskelemen/waf-admin-caddy:latest
+    command: caddy run --config /etc/caddy/Caddyfile
+    ports:
+      - "80:80"
+      - "443:443"
+    networks: [edge]
+    volumes:
+      - waf_rules:/etc/coraza
+      - waf_sites:/etc/caddy/sites
+      - caddy_data:/data
+      - caddy_config:/config
+      - type: tmpfs,source=caddy_admin_run,target=/run/caddy-admin
+    environment:
+      - OTEL_SERVICE_NAME=waf-edge
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      - OTEL_RESOURCE_ATTRIBUTES=deployment=swarm,component=caddy
+    deploy:
+      replicas: 1
+      update_config: { order: start-first, parallelism: 1 }
+      restart_policy: { condition: on-failure }
+      placement:
+        constraints: ["node.role == manager"]
+
+  waf-api:
+    image: ghcr.io/janiskelemen/waf-admin-api:latest
+    networks: [edge]
+    environment:
+      - WAF_ADMIN_CONFIG=/app/config.yaml
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - waf_rules:/etc/coraza
+      - waf_sites:/etc/caddy/sites
+      - ./waf-admin-config.yaml:/app/config.yaml:ro
+      - type: tmpfs,source=caddy_admin_run,target=/run/caddy-admin
+    deploy:
+      replicas: 1
+      restart_policy: { condition: on-failure }
+      placement:
+        constraints: ["node.role == manager"]
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.106.0
+    networks: [edge]
+    command: ["--config=/etc/otelcol/config.yaml"]
+    volumes:
+      - otel_config:/etc/otelcol
+    deploy:
+      replicas: 1
+      placement:
+        constraints: ["node.role == manager"]
+
+networks:
+  edge:
+    driver: overlay
+
+volumes:
+  waf_rules: {}
+  waf_sites: {}
+  caddy_data: {}
+  caddy_config: {}
+  caddy_admin_run:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: "size=16m,uid=0,gid=0,mode=0777"
+  otel_config: {}

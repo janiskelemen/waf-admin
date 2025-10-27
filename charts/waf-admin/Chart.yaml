@@ -1,4 +1,0 @@
-apiVersion: v2
-name: waf-admin
-version: 0.1.0
-description: Admin API to manage Caddy+Coraza sites & rules with validate+reload

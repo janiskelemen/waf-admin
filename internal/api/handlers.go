@@ -94,6 +94,8 @@ func (s *Server) putSite(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	path := filepath.Join(s.driver.LayoutSites(), site+".caddy")
+	orig, err := s.store.Read(r.Context(), path)
+	hadOrig := err == nil
 	if err := s.store.WriteAtomic(r.Context(), path, []byte(req.Content), 0o644); err != nil {
 		writeErr(w, 500, err.Error())
 		return
@@ -103,6 +105,15 @@ func (s *Server) putSite(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if err := s.applyNow(r.Context()); err != nil {
+		if hadOrig {
+			if restoreErr := s.store.WriteAtomic(context.Background(), path, orig, 0o644); restoreErr != nil {
+				log.Error().Err(restoreErr).Str("path", path).Msg("restore site failed")
+			}
+		} else {
+			if delErr := s.store.Delete(context.Background(), path); delErr != nil {
+				log.Error().Err(delErr).Str("path", path).Msg("delete new site failed")
+			}
+		}
 		writeErr(w, 400, "validate/apply failed: "+err.Error())
 		return
 	}
@@ -188,11 +199,22 @@ func (s *Server) putRule(w http.ResponseWriter, r *http.Request) {
 		writeErr(w, 500, err.Error())
 		return
 	}
+	orig, err := s.store.Read(r.Context(), path)
+	hadOrig := err == nil
 	if err := s.store.WriteAtomic(r.Context(), path, []byte(req.Content), 0o644); err != nil {
 		writeErr(w, 500, err.Error())
 		return
 	}
 	if err := s.applyNow(r.Context()); err != nil {
+		if hadOrig {
+			if restoreErr := s.store.WriteAtomic(context.Background(), path, orig, 0o644); restoreErr != nil {
+				log.Error().Err(restoreErr).Str("path", path).Msg("restore rule failed")
+			}
+		} else {
+			if delErr := s.store.Delete(context.Background(), path); delErr != nil {
+				log.Error().Err(delErr).Str("path", path).Msg("delete new rule failed")
+			}
+		}
 		writeErr(w, 400, "validate/apply failed: "+err.Error())
 		return
 	}
