@@ -12,6 +12,7 @@ services:
       - waf_sites:/etc/caddy/sites:ro
       - caddy_data:/data
       - caddy_config:/config
+      - geoip_data:/usr/share/GeoIP:ro
       - type: tmpfs,source=caddy_admin_run,target=/run/caddy-admin
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
     environment:
@@ -22,7 +23,7 @@ services:
     deploy:
       replicas: 2
       placement: { constraints: ["node.role == manager"] }
-      restart_policy: { condition: on-failure }
+      restart_policy: { condition: any }
 
   waf-admin:
     build: .. # the OSS microservice you just built
@@ -34,6 +35,7 @@ services:
     volumes:
       - waf_rules:/etc/coraza
       - waf_sites:/etc/caddy/sites
+      - geoip_data:/usr/share/GeoIP
       - type: tmpfs,source=caddy_admin_run,target=/run/caddy-admin
       - ./waf-admin-config.yaml:/app/config.yaml:ro
     deploy:
@@ -60,6 +62,7 @@ volumes:
   waf_sites: {}
   caddy_data: {}
   caddy_config: {}
+  geoip_data: {}
   caddy_admin_run:
     driver: local
     driver_opts:

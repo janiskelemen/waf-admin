@@ -48,6 +48,13 @@ func main() {
 			log.Fatal().Err(err).Msg("schedule backup")
 		}
 	}
+	if cfg.GeoIP.Enabled {
+		if err := sched.AddDaily("geoip-update", cfg.GeoIP.Daily, func(ctx context.Context) error {
+			return scheduler.RunGeoIPUpdate(ctx, cfg.GeoIP, rl)
+		}); err != nil {
+			log.Fatal().Err(err).Msg("schedule geoip update")
+		}
+	}
 	sched.Start()
 	defer sched.Stop()
 

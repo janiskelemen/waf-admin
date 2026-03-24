@@ -12,6 +12,7 @@ services:
       - waf_sites:/etc/caddy/sites
       - caddy_data:/data
       - caddy_config:/config
+      - geoip_data:/usr/share/GeoIP
       - type: tmpfs,source=caddy_admin_run,target=/run/caddy-admin
     environment:
       - OTEL_SERVICE_NAME=waf-edge
@@ -21,7 +22,7 @@ services:
     deploy:
       replicas: 1
       update_config: { order: start-first, parallelism: 1 }
-      restart_policy: { condition: on-failure }
+      restart_policy: { condition: any }
       placement:
         constraints: ["node.role == manager"]
 
@@ -34,6 +35,7 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - waf_rules:/etc/coraza
       - waf_sites:/etc/caddy/sites
+      - geoip_data:/usr/share/GeoIP
       - ./waf-admin-config.yaml:/app/config.yaml:ro
       - type: tmpfs,source=caddy_admin_run,target=/run/caddy-admin
     deploy:
@@ -62,6 +64,7 @@ volumes:
   waf_sites: {}
   caddy_data: {}
   caddy_config: {}
+  geoip_data: {}
   caddy_admin_run:
     driver: local
     driver_opts:

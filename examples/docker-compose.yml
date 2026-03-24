@@ -3,10 +3,12 @@ services:
   caddy:
     build: ./../docker/caddy
     command: caddy run --config /etc/caddy/Caddyfile
+    restart: always
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - ./sites:/etc/caddy/sites
       - ./coraza:/etc/coraza
+      - ./geoip:/usr/share/GeoIP
       - caddy_admin_run:/run/caddy-admin
     ports: ["80", "8081:8081"]
   waf-admin:
@@ -17,6 +19,7 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ./sites:/etc/caddy/sites
       - ./coraza:/etc/coraza
+      - ./geoip:/usr/share/GeoIP
       - ./waf-admin-config.yaml:/app/config.yaml:ro
       - caddy_admin_run:/run/caddy-admin
     ports: ["8080:8080"]

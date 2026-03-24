@@ -20,3 +20,9 @@ backup:
     accessKey: "${S3_ACCESS_KEY}"
     secretKey: "${S3_SECRET_KEY}"
     prefix: "waf-backups/"
+
+geoip:
+  enabled: true
+  daily: "04:00"
+  databaseURL: "https://github.com/P3TERX/GeoLite.mmdb/releases/latest/download/GeoLite2-Country.mmdb"
+  databaseDir: "/usr/share/GeoIP"

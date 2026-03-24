@@ -23,6 +23,7 @@ type Config struct {
 	} `yaml:"caddy"`
 
 	Backup BackupConfig `yaml:"backup"`
+	GeoIP  GeoIPConfig  `yaml:"geoip"`
 }
 
 type BackupConfig struct {
@@ -36,6 +37,13 @@ type BackupConfig struct {
 		SecretKey string `yaml:"secretKey"`
 		Prefix    string `yaml:"prefix"`
 	} `yaml:"s3"`
+}
+
+type GeoIPConfig struct {
+	Enabled     bool   `yaml:"enabled"`
+	Daily       string `yaml:"daily"`
+	DatabaseURL string `yaml:"databaseURL"`
+	DatabaseDir string `yaml:"databaseDir"`
 }
 
 type CaddyConfig struct {
@@ -56,6 +64,12 @@ func LoadConfig(path string) (*Config, error) {
 	}
 	if cfg.Server.Bind == "" {
 		cfg.Server.Bind = ":8080"
+	}
+	if cfg.GeoIP.DatabaseURL == "" {
+		cfg.GeoIP.DatabaseURL = "https://github.com/P3TERX/GeoLite.mmdb/releases/latest/download/GeoLite2-Country.mmdb"
+	}
+	if cfg.GeoIP.DatabaseDir == "" {
+		cfg.GeoIP.DatabaseDir = "/usr/share/GeoIP"
 	}
 	return &cfg, nil
 }
