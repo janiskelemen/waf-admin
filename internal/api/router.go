@@ -8,7 +8,7 @@ import (
 	"github.com/go-chi/httprate"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	"github.com/janiskelemen/waf-admin/internal/auth"
+	"github.com/Stack-Dash/waf-admin/internal/auth"
 )
 
 func (s *Server) routes() http.Handler {

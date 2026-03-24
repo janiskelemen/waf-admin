@@ -1,4 +1,4 @@
-module github.com/janiskelemen/waf-admin
+module github.com/Stack-Dash/waf-admin
 
 go 1.22
 

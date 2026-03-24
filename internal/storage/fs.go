@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/janiskelemen/waf-admin/internal/util"
+	"github.com/Stack-Dash/waf-admin/internal/util"
 )
 
 type FS struct{}

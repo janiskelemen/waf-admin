@@ -11,8 +11,8 @@ import (
 
 	"github.com/rs/zerolog/log"
 
-	"github.com/janiskelemen/waf-admin/internal/api"
-	"github.com/janiskelemen/waf-admin/internal/reload"
+	"github.com/Stack-Dash/waf-admin/internal/api"
+	"github.com/Stack-Dash/waf-admin/internal/reload"
 )
 
 const geoIPFileName = "GeoLite2-Country.mmdb"

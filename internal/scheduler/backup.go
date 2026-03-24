@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/janiskelemen/waf-admin/internal/api"
+	"github.com/Stack-Dash/waf-admin/internal/api"
 	"github.com/rs/zerolog/log"
 )
 

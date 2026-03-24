@@ -10,12 +10,12 @@ import (
 
 	"github.com/rs/zerolog/log"
 
-	"github.com/janiskelemen/waf-admin/internal/api"
-	"github.com/janiskelemen/waf-admin/internal/reload"
-	"github.com/janiskelemen/waf-admin/internal/render"
-	"github.com/janiskelemen/waf-admin/internal/scheduler"
-	"github.com/janiskelemen/waf-admin/internal/storage"
-	"github.com/janiskelemen/waf-admin/internal/util"
+	"github.com/Stack-Dash/waf-admin/internal/api"
+	"github.com/Stack-Dash/waf-admin/internal/reload"
+	"github.com/Stack-Dash/waf-admin/internal/render"
+	"github.com/Stack-Dash/waf-admin/internal/scheduler"
+	"github.com/Stack-Dash/waf-admin/internal/storage"
+	"github.com/Stack-Dash/waf-admin/internal/util"
 )
 
 func main() {

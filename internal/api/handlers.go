@@ -12,10 +12,10 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog/log"
 
-	"github.com/janiskelemen/waf-admin/internal/domain"
-	"github.com/janiskelemen/waf-admin/internal/reload"
-	"github.com/janiskelemen/waf-admin/internal/render"
-	"github.com/janiskelemen/waf-admin/internal/storage"
+	"github.com/Stack-Dash/waf-admin/internal/domain"
+	"github.com/Stack-Dash/waf-admin/internal/reload"
+	"github.com/Stack-Dash/waf-admin/internal/render"
+	"github.com/Stack-Dash/waf-admin/internal/storage"
 )
 
 var (

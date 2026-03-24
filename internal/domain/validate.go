@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/janiskelemen/waf-admin/internal/render"
-	"github.com/janiskelemen/waf-admin/internal/storage"
+	"github.com/Stack-Dash/waf-admin/internal/render"
+	"github.com/Stack-Dash/waf-admin/internal/storage"
 )
 
 func ListSites(ctx context.Context, dr render.Driver, st storage.Storage) ([]SiteInfo, error) {

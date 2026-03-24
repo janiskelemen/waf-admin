@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   caddy-waf:
-    image: ghcr.io/janiskelemen/waf-admin-caddy:latest
+    image: ghcr.io/Stack-Dash/waf-admin-caddy:latest
     command: caddy run --config /etc/caddy/Caddyfile
     ports:
       - "80:80"
@@ -27,7 +27,7 @@ services:
         constraints: ["node.role == manager"]
 
   waf-api:
-    image: ghcr.io/janiskelemen/waf-admin-api:latest
+    image: ghcr.io/Stack-Dash/waf-admin-api:latest
     networks: [edge]
     environment:
       - WAF_ADMIN_CONFIG=/app/config.yaml
